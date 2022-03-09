@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>{{judul}} - Demo Face Recognition Flask</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+  </head>
+  <body>
+    
+    <main>
+    <div class="container py-4">
+        <header class="pb-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+            <img src="https://www.rawshorts.com/freeicons/wp-content/uploads/2017/01/green_shoppictcart_1484336527-1.png" width="70" alt="">
+            <span class="fs-4">Lakukan Traksaksi secepat Kilat</span>
+        </a>
+        <div class="d-flex justify-content-end">
+            <a href="{{ url_for ('logout') }}" style="display: inline; text-decoration: none; font-size: large;">
+                Keluar
+            </a>
+        </div>
+        </header>
+
+        <div class="p-5 mb-4 bg-light rounded-3">
+        {% with messages = get_flashed_messages()  %}                            
+          {% if messages %}                                
+              {% for message in messages %}
+              <div class="mb-4">
+                  {{ message }}
+              </div>
+              {% endfor %}                                    
+          {% endif %}                                
+        {% endwith %}
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Bayar Kebutuhan</h1>
+            <p class="col-md-8 fs-4">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, provident.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+            
+            {% if current_user.foto != 'default.png' %}
+                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modalTransaksi">Transaksi Sekarang</button>
+            {% else %}
+                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modalUploadFoto">Lengkapi Data</button>
+            {% endif %}
+                
+    
+        </div>
+        </div>
+
+        <!-- Modal NOTE: Upload Foto -->
+        <div class="modal fade" id="modalUploadFoto" tabindex="-1" aria-labelledby="modalUploadFoto" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Data {{current_user|capitalize}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">
+                            <b>Upload Foto</b>
+                        </label>
+                        {% if form.foto.errors %}
+                            {{ form.foto(class='form-control' ) }}                                
+                        {% else %}
+                            {{ form.foto(class='form-control' ) }}
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        {{form.upload(class='btn btn-primary')}}
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <!-- Modal NOTE: Transaksi Verification -->
+        <div class="modal fade" id="modalTransaksi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Authentikasi Wajah {{current_user|capitalize}}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Mohon maaf, sebelum melanjutkan transaksi. Kami perlu melakukan Authentikasi wajah Pengguna terlebih dahulu.
+                  tekan Tombol <b>Start</b> untuk memulai.
+                  <div class="mt-3 text-center">
+                    <!-- Source video By JS (masih bermasalah) -->
+                    <!-- <video autoplay="true" id="video-webcam" width="60%" class="rounded">
+                        Browsermu tidak mendukung bro, upgrade donk!
+                    </video> -->
+
+                    <!-- Source Video By Camera Server/Laptop -->
+                    
+                    {% if current_user.foto != 'default.png' %}
+                        <img src="{{ url_for ('video_feed') }}" class="rounded" width="60%">
+                    {% endif %}
+                        
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="modal-footer d-flex justify-content-start">
+                            <button type="button" class="btn btn-success" onclick="start()">START</button>
+                            <button type="button" class="btn btn-danger" onclick="StopWebCam()">STOP</button>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="modal-footer d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <footer class="pt-3 mt-4 text-muted border-top">
+        Theis Andatu - &copy; 2022
+        </footer>
+    </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript">
+        // seleksi elemen video
+        var video = document.querySelector("#video-webcam");
+
+        // stop webcam
+        var StopWebCam = function () {
+            var stream = video.srcObject;
+            var tracks = stream.getTracks();
+
+            for (var i = 0; i < tracks.length; i++) {
+                var track = tracks[i];
+                track.stop();
+            }
+            video.srcObject = null;
+        }
+
+
+        var start = function () {
+            var video = document.getElementById("video-webcam"),
+                vendorURL = window.URL || window.webkitURL;
+
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                    }).catch(function (error) {
+                        alert("Kami tidak dapat melanjutkan, jika Akses kamera tidak di izinkan");
+                    });
+            }
+        }
+        $(function () { start(); });
+
+    </script> -->
+  </body>
+</html>
