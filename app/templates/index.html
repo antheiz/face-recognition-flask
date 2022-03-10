@@ -9,7 +9,7 @@
     <title>{{judul}} - Demo Face Recognition Flask</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/auth.css') }}">
 
 
 
@@ -37,7 +37,7 @@
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-            <img src="https://www.rawshorts.com/freeicons/wp-content/uploads/2017/01/green_shoppictcart_1484336527-1.png" width="70" alt="">
+            <img src="{{ url_for ('static', filename='img/cart-shop.png') }}" width="70" alt="">
             <span class="fs-4">Lakukan Traksaksi secepat Kilat</span>
         </a>
         <div class="d-flex justify-content-end">
@@ -153,8 +153,8 @@
     </div>
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="{{ url_for ('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for ('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <!-- <script type="text/javascript">
         // seleksi elemen video
         var video = document.querySelector("#video-webcam");

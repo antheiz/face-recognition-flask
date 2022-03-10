@@ -81,7 +81,6 @@ def transaksi_proses():
         person_face_encoding = face_recognition.face_encodings(person_image)[0]
         known_face_encodings.append(person_face_encoding)
 
-    print(known_face_encodings)
     person_name = [row.username for row in User.query.all()]
 
     face_locations = []
@@ -89,7 +88,6 @@ def transaksi_proses():
     face_names = []
     process_this_frame = True
 
-    # camera = cv2.VideoCapture(0)
     camera = cv2.VideoCapture(0)
     while True:
         success, frame = camera.read()  # read the camera frame
@@ -158,9 +156,11 @@ def index():
         return redirect(url_for('index'))
     return render_template('index.html', form=form, judul ="Beranda")
 
+
 @app.route('/success')
 def success():
     return render_template('success.html', judul='Berhasil Transaksi')
+
 
 @app.route('/video_feed')
 @login_required
